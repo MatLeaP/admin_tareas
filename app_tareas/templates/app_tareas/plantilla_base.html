@@ -26,7 +26,9 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'categorias' %}">CATEGORIAS</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'tareas' %}">TAREAS</a></li>
                         {% if user.is_authenticated %}
+                            {% if user.avatar%}
                         <img src="{{ user.avatar.imagen.url }}" style="width: 30px; height; 30px; border-radius: 100%;" />
+                            {% endif %}
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ user.username }}

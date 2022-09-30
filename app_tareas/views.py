@@ -192,13 +192,29 @@ class EditarUsuario(LoginRequiredMixin,UpdateView):
 def agregar_avatar(request):
     if request.method == 'POST':
 
-        form = AvatarFormulario(request.POST, request.FILES) #aquí me llega toda la información del html
+        form = AvatarFormulario(request.POST, request.FILES)
 
-        if form.is_valid:   #Si pasó la validación de Django
+        if form.is_valid:  
             avatar = form.save()
             avatar.user = request.user
             avatar.save()
             return redirect(reverse('home'))
 
-    form = AvatarFormulario() #Formulario vacio para construir el html
+    form = AvatarFormulario() 
     return render(request, "app_tareas/usuarios/form_avatar.html", {"form":form})
+
+
+# def eliminarAvatar(request, id):
+#     avatar = Avatar.objects.filter(id = id)
+#     avatar.delete()
+#     # form = AvatarFormulario() #Formulario vacio para construir el html
+#     return render(request, "app_tareas/usuarios/form_usuario.html")
+    
+
+
+class EliminarAvatar(DeleteView):
+    
+    model = Avatar
+    context_object_name = 'avatar'
+    success_url = reverse_lazy('home')      
+    template_name = 'app_tareas/categorias/eliminar_avatar.html' 

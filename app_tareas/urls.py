@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import EditarUsuario, ListaUsuarios, home, CrearCategoria, CrearOperador, DetalleCategoria, DetalleOperador, EditarCategoria, EditarOperador, EliminarCategoria, EliminarOperador, ListaCategorias, ListaOperadores,  ListaTareas,DetalleTarea,CrearTarea,EditarTarea, EliminarTarea, Logueo, registro, tarea, about
-from .views import home, CrearCategoria, CrearOperador, DetalleCategoria, DetalleOperador, EditarCategoria, EditarOperador, EliminarCategoria, EliminarOperador, ListaCategorias, ListaOperadores,  ListaTareas,DetalleTarea,CrearTarea,EditarTarea, EliminarTarea, Logueo, registro, tarea, about,agregar_avatar
+from .views import home, CrearCategoria, CrearOperador, DetalleCategoria, DetalleOperador, EditarCategoria, EditarOperador, EliminarCategoria, EliminarOperador, ListaCategorias, ListaOperadores,  ListaTareas,DetalleTarea,CrearTarea,EditarTarea, EliminarTarea, Logueo, registro, tarea, about,agregar_avatar, EliminarAvatar
 from django.contrib.auth.views import LogoutView
 
 
@@ -34,5 +34,6 @@ urlpatterns = [
     # -----------USUARIOS ---------------
     path('usuarios/', ListaUsuarios.as_view(), name ='usuarios'),        
     path('editar_usuario/<int:pk>', EditarUsuario.as_view(), name ='editar_usuario'),
-    path('agregar_avatar/', agregar_avatar, name='agregar_avatar' )
+    path('agregar_avatar/', agregar_avatar, name='agregar_avatar'),
+    path('eliminar_avatar/<int:pk>', EliminarAvatar.as_view(), name='eliminar_avatar'),
 ]
