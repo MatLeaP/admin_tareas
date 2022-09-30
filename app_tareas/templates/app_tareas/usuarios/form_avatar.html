@@ -4,8 +4,8 @@
 {% block contenido %}
 
 <div class='container'>
-    <h2>Usuario</h2>
-    <form action="" class="formulario_usuarios" method="POST">
+    <h2>{{user}}, sube tu foto para completar el perfil.</h2>
+    <form action="" class="formulario_usuarios" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
             <div class="col">
@@ -14,7 +14,6 @@
         </div>   
         <br>
         <button type="submit" , id="btnEnviar", class="btn btn-primary btn-sm">Aceptar Cambios</button>
-        <a href="{% url 'agregar_avatar' %}" class="btn btn-primary btn-sm">Agregar avatar</a>           
         <a href="{% url 'home' %}" class="btn btn-primary btn-sm">Volver</a>           
     </form>
 

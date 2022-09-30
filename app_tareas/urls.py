@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import EditarUsuario, ListaUsuarios, home, CrearCategoria, CrearOperador, DetalleCategoria, DetalleOperador, EditarCategoria, EditarOperador, EliminarCategoria, EliminarOperador, ListaCategorias, ListaOperadores,  ListaTareas,DetalleTarea,CrearTarea,EditarTarea, EliminarTarea, Logueo, registro, tarea, about
-from .views import home, CrearCategoria, CrearOperador, DetalleCategoria, DetalleOperador, EditarCategoria, EditarOperador, EliminarCategoria, EliminarOperador, ListaCategorias, ListaOperadores,  ListaTareas,DetalleTarea,CrearTarea,EditarTarea, EliminarTarea, Logueo, registro, tarea, about
+from .views import home, CrearCategoria, CrearOperador, DetalleCategoria, DetalleOperador, EditarCategoria, EditarOperador, EliminarCategoria, EliminarOperador, ListaCategorias, ListaOperadores,  ListaTareas,DetalleTarea,CrearTarea,EditarTarea, EliminarTarea, Logueo, registro, tarea, about,agregar_avatar
 from django.contrib.auth.views import LogoutView
 
 
@@ -14,7 +14,7 @@ urlpatterns = [
     path('tareas/', ListaTareas.as_view(), name ='tareas'),
     path('tarea/<int:pk>', DetalleTarea.as_view(), name ='tarea'),
     path('crear_tarea/', CrearTarea.as_view(), name ='crear_tarea'),
-    path('editar_tarea/<int:pk>', EditarTarea.as_view(), name ='editar_tarea'),
+    path('editar_tarea/<int:pk>', EditarTarea.as_view() , name ='editar_tarea'),
     path('eliminar_tarea/<int:pk>', EliminarTarea.as_view(), name ='eliminar_tarea'), 
     path('tarea_usuario/<int:usuario_id>', tarea , name ='tarea_usuario'),
     
@@ -34,4 +34,5 @@ urlpatterns = [
     # -----------USUARIOS ---------------
     path('usuarios/', ListaUsuarios.as_view(), name ='usuarios'),        
     path('editar_usuario/<int:pk>', EditarUsuario.as_view(), name ='editar_usuario'),
+    path('agregar_avatar/', agregar_avatar, name='agregar_avatar' )
 ]

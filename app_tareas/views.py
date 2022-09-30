@@ -10,13 +10,15 @@ from django.urls import reverse_lazy
 
 # vistas para login y seguridad
 # importo de FORMS el custom que realice de userregisterform y se lo envio a la vista con el data
-from app_tareas.forms import CustomUserRegisterForm
+from app_tareas.forms import CustomUserRegisterForm, AvatarFormulario
 from django.contrib.auth.forms import AuthenticationForm
 # funciones que me van a permitir autenticar al usuario
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from app_tareas.models import Avatar
+from django.shortcuts import render, redirect, reverse
  
  
 def home(request):
@@ -98,6 +100,7 @@ def tarea(request, usuario_id):
     tareas = Tarea.objects.filter(usuario_id = user[0])
     return render(request, "app_tareas/tareas/tarea_usuario.html", {'tareas': tareas, 'empleado': user[0]})
  
+
     
     
  # ---------- VISTAS OPERADORES -------------
@@ -184,3 +187,18 @@ class EditarUsuario(LoginRequiredMixin,UpdateView):
     fields =  ['username','first_name', 'last_name'] 
     success_url = reverse_lazy('home')
     template_name = 'app_tareas/usuarios/form_usuario.html' 
+
+
+def agregar_avatar(request):
+    if request.method == 'POST':
+
+        form = AvatarFormulario(request.POST, request.FILES) #aquí me llega toda la información del html
+
+        if form.is_valid:   #Si pasó la validación de Django
+            avatar = form.save()
+            avatar.user = request.user
+            avatar.save()
+            return redirect(reverse('home'))
+
+    form = AvatarFormulario() #Formulario vacio para construir el html
+    return render(request, "app_tareas/usuarios/form_avatar.html", {"form":form})
