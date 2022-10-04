@@ -5,17 +5,24 @@
 {% block contenido %}
 
 
-    <p>{{request.user}}</p>
+  {{request.user}} &nbsp;&nbsp;
     <a href="{% url 'logout' %}">Salir</a>
 
-
+    &nbsp;&nbsp;&nbsp;&nbsp;
     <a href="{% url 'login' %}">Ingresar</a>   </p></p>
     
-    
+    <h2 style="font-size:80px; color:rgb(12, 88, 46); margin:10px;">Administrador de Tareas</h2>
     <body>
-        
-        <center><img src="https://us.123rf.com/450wm/rawpixel/rawpixel1409/rawpixel140900999/31300598-hombres-de-negocios-con-engranajes-y-trabajo-en-equipo-concepto.jpg?ver=6" /></center>
-
+      
+      <p style="text-align:start;color:rgb(12, 88, 46)">         
+             
+              <i>La herramienta esencial para tu negocio</i>
+              </p> 
+                
+                  {% load static %}
+                  <center><img  src="{% static 'app_tareas\assets\img\Ronda.jpg' %}" alt="Creando Sinergias"></center>
+                   <p style="vertical-align:bottom ; text-align: right;"><i>creando sinergias</i></p>
+         
     </body>
  
 
