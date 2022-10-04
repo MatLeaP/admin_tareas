@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import EditarUsuario, ListaUsuarios, home, CrearCategoria, CrearOperador, DetalleCategoria, DetalleOperador, EditarCategoria, EditarOperador, EliminarCategoria, EliminarOperador, ListaCategorias, ListaOperadores,  ListaTareas,DetalleTarea,CrearTarea,EditarTarea, EliminarTarea, Logueo, registro, tarea, about
-from .views import home, CrearCategoria, CrearOperador, DetalleCategoria, DetalleOperador, EditarCategoria, EditarOperador, EliminarCategoria, EliminarOperador, ListaCategorias, ListaOperadores,  ListaTareas,DetalleTarea,CrearTarea,EditarTarea, EliminarTarea, Logueo, registro, tarea, about
+from .views import EditarUsuario, ListaUsuarios, home, CrearCategoria,  DetalleCategoria,  EditarCategoria,  EliminarCategoria,  ListaCategorias,   ListaTareas,DetalleTarea,CrearTarea,EditarTarea, EliminarTarea, Logueo, registro, tarea, about
+from .views import home, CrearCategoria,  DetalleCategoria,  EditarCategoria, EliminarCategoria,  ListaCategorias,  ListaTareas,DetalleTarea,CrearTarea,EditarTarea, EliminarTarea, Logueo, registro, tarea, about,agregar_avatar, EliminarAvatar
 from django.contrib.auth.views import LogoutView
 
 
@@ -14,16 +14,10 @@ urlpatterns = [
     path('tareas/', ListaTareas.as_view(), name ='tareas'),
     path('tarea/<int:pk>', DetalleTarea.as_view(), name ='tarea'),
     path('crear_tarea/', CrearTarea.as_view(), name ='crear_tarea'),
-    path('editar_tarea/<int:pk>', EditarTarea.as_view(), name ='editar_tarea'),
+    path('editar_tarea/<int:pk>', EditarTarea.as_view() , name ='editar_tarea'),
     path('eliminar_tarea/<int:pk>', EliminarTarea.as_view(), name ='eliminar_tarea'), 
     path('tarea_usuario/<int:usuario_id>', tarea , name ='tarea_usuario'),
     
-    #---------- OPERADORES -----------
-    path('operadores/', ListaOperadores.as_view(), name ='operadores'),       
-    path('operador/<int:pk>', DetalleOperador.as_view(), name ='operador'),           
-    path('crear_operador/', CrearOperador.as_view(), name ='crear_operador'),
-    path('editar_operador/<int:pk>', EditarOperador.as_view(), name ='editar_operador'),
-    path('eliminar_operador/<int:pk>', EliminarOperador.as_view(), name ='eliminar_operador'), 
     #---------- CATEGORIAS -----------
     path('categorias/', ListaCategorias.as_view(), name ='categorias'),       
     path('categoria/<int:pk>', DetalleCategoria.as_view(), name ='categoria'),           
@@ -34,4 +28,6 @@ urlpatterns = [
     # -----------USUARIOS ---------------
     path('usuarios/', ListaUsuarios.as_view(), name ='usuarios'),        
     path('editar_usuario/<int:pk>', EditarUsuario.as_view(), name ='editar_usuario'),
+    path('agregar_avatar/', agregar_avatar, name='agregar_avatar'),
+    path('eliminar_avatar/<int:pk>', EliminarAvatar.as_view(), name='eliminar_avatar'),
 ]

@@ -12,8 +12,8 @@
 <div class="container">
 
     <form action="" method="GET">
-        <input type="text" name="buscar">
-        <input type="submit" value="Buscar en Descripcion" class="btn btn-dark btn-sm">
+        <input type="text" name="buscar" value = "{{valor_buscado}}">
+        <input type="submit" value="Buscar" class="btn btn-dark btn-sm">
     </form>
 </div>
 <br>
@@ -32,9 +32,10 @@
                     {% for i in categorias %}
                     <tr>
                         <td>{{i.descripcion}}</td> 
-                        <td><a href="{% url 'categoria' i.id %}" class="btn btn-info btn-sm">Detalle</a> 
-                        <a href="{% url 'editar_categoria' i.id %}" class="btn btn-warning btn-sm">Editar</a>
-                       <a href="{% url 'eliminar_categoria' i.id %}" class="btn btn-danger btn-sm">Eliminar</a></td>                           
+
+                        <td><a  id = editar href="{% url 'editar_categoria' i.id %}" class="btn btn-warning btn-sm"><i class="far fa-edit"></i></a>
+                        <a  id = eliminar href="{% url 'eliminar_categoria' i.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a></td>     
+                         
                     </tr>    
                     {% endfor %}
                 </tbody>

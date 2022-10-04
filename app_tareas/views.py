@@ -1,8 +1,9 @@
-from .models import Categoria, Operador, Tarea
+from .models import Categoria, Tarea, Avatar
 from django.shortcuts import render, redirect
 from django.contrib import  messages # el storage de messages esta definido en settings
 
 # a trabajar las vistas por Clase:
+from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
@@ -10,13 +11,14 @@ from django.urls import reverse_lazy
 
 # vistas para login y seguridad
 # importo de FORMS el custom que realice de userregisterform y se lo envio a la vista con el data
-from app_tareas.forms import CustomUserRegisterForm
+from app_tareas.forms import CustomUserRegisterForm, AvatarFormulario, TareaForm, CategoriaForm
 from django.contrib.auth.forms import AuthenticationForm
 # funciones que me van a permitir autenticar al usuario
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.shortcuts import render, redirect, reverse
  
  
 def home(request):
@@ -45,7 +47,6 @@ def registro(request):
         
     return render(request, 'registration/registro.html', data)
     
-     
 
 class Logueo(LoginView):
     field = '__all__'
@@ -62,9 +63,22 @@ class ListaTareas(LoginRequiredMixin, ListView):
     
     model = Tarea
     context_object_name = 'tareas'
-    template_name = 'app_tareas/tareas/lista_tareas.html'    
+    template_name = 'app_tareas/tareas/lista_tareas.html' 
     
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) 
+        # context['tareas'] = context['tareas'].filter(usuario=self.request.user) 
+        #context['count'] = context['tareas'].filter(completo=False).count() 
+
+        valor_buscado = self.request.GET.get('buscar') or ''
+        if valor_buscado:
+            context['tareas'] = context['tareas'].filter(titulo__icontains=valor_buscado)
+        
+        context['valor_buscado'] =  valor_buscado      
+        return context
+
+
 class DetalleTarea(LoginRequiredMixin,DetailView):
     
     model = Tarea
@@ -74,9 +88,16 @@ class DetalleTarea(LoginRequiredMixin,DetailView):
 class CrearTarea(LoginRequiredMixin,CreateView):
     
     model = Tarea
-    fields = '__all__'
+    form_class = TareaForm
     success_url = reverse_lazy('tareas')
-    template_name = 'app_tareas/tareas/form_tarea.html'       
+    template_name = 'app_tareas/tareas/form_tarea.html'
+
+    def post(self, request, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            messages.success(request, "Tarea Creada Correctamente.")
+            return super(CrearTarea, self).post(request, **kwargs)  
+    
 
 class EditarTarea(LoginRequiredMixin,UpdateView):
     
@@ -96,52 +117,26 @@ class EliminarTarea(LoginRequiredMixin,DeleteView):
 def tarea(request, usuario_id):
     user = User.objects.filter(id = usuario_id)
     tareas = Tarea.objects.filter(usuario_id = user[0])
-    return render(request, "app_tareas/tareas/tarea_usuario.html", {'tareas': tareas, 'empleado': user[0]})
+    return render(request, "app_tareas/tareas/tarea_usuario.html", {'tareas': tareas, 'usuario': user[0]})
  
-    
-    
- # ---------- VISTAS OPERADORES -------------
- 
-class ListaOperadores(LoginRequiredMixin,ListView):
-    
-    model = Operador
-    context_object_name = 'operadores'   
-    template_name = 'app_tareas/operadores/lista_operadores.html'
-    
-class DetalleOperador(LoginRequiredMixin,DetailView):
-    
-    model = Operador
-    context_object_name = 'operador'
-    template_name = 'app_tareas/operadores/detalle_operador.html'    
-    
-class CrearOperador(LoginRequiredMixin,CreateView):
-    
-    model = Operador
-    fields = '__all__'
-    success_url = reverse_lazy('operadores')
-    template_name = 'app_tareas/operadores/form_operador.html'     
 
-class EditarOperador(LoginRequiredMixin,UpdateView):
-    
-    model = Operador
-    fields = '__all__' # podriamos pasar campo por campo = ['nombre','apellido'] y asi
-    success_url = reverse_lazy('operadores')
-    template_name = 'app_tareas/operadores/form_operador.html' 
-    
-class EliminarOperador(LoginRequiredMixin,DeleteView):
-    
-    model = Operador
-    context_object_name = 'operador'
-    success_url = reverse_lazy('operadores')   
-    template_name = 'app_tareas/operadores/eliminar_operador.html'          
-    
 # ---------- VISTAS CATEGORIAS -------------
  
 class ListaCategorias(LoginRequiredMixin,ListView):
     
     model = Categoria
     context_object_name = 'categorias'   
-    template_name = 'app_tareas/categorias/lista_categorias.html'       
+    template_name = 'app_tareas/categorias/lista_categorias.html'  
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) 
+        valor_buscado = self.request.GET.get('buscar') or ''
+        if valor_buscado:
+            context['categorias'] = context['categorias'].filter(descripcion__icontains=valor_buscado)
+        
+        context['valor_buscado'] =  valor_buscado      
+        return context    
+         
     
 class DetalleCategoria(LoginRequiredMixin,DetailView):
     
@@ -152,14 +147,20 @@ class DetalleCategoria(LoginRequiredMixin,DetailView):
 class CrearCategoria(LoginRequiredMixin,CreateView):
     
     model = Categoria
-    fields = '__all__'
+    form_class = CategoriaForm
     success_url = reverse_lazy('categorias')
-    template_name = 'app_tareas/categorias/form_categoria.html'       
+    template_name = 'app_tareas/categorias/form_categoria.html'     
+    
+    def post(self, request, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            messages.success(request, "Categoria Creada Correctamente.")
+            return super(CrearCategoria, self).post(request, **kwargs)      
 
 class EditarCategoria(LoginRequiredMixin,UpdateView):
     
     model = Categoria
-    fields = '__all__'
+    form_class = CategoriaForm
     success_url = reverse_lazy('categorias')
     template_name = 'app_tareas/categorias/form_categoria.html'      
     
@@ -168,8 +169,17 @@ class EliminarCategoria(LoginRequiredMixin,DeleteView):
     model = Categoria
     context_object_name = 'categoria'
     success_url = reverse_lazy('categorias')      
-    template_name = 'app_tareas/categorias/eliminar_categoria.html'        
+    template_name = 'app_tareas/categorias/eliminar_categoria.html'   
+    
+    # def post(self, request, **kwargs):
+    #     form = self.form_class(request.POST)
         
+    #     if form.is_valid():
+    #         messages.warning(request, "Categoria Eliminada Correctamente.")
+    #         return super(EliminarCategoria, self).post(request, **kwargs)            
+    #     else:
+    #         messages.error(request, "Error Al Eliminar Categoria.") 
+
 # ---------------- vista USERS ---------------
 class ListaUsuarios(LoginRequiredMixin,ListView):
     
@@ -181,6 +191,38 @@ class ListaUsuarios(LoginRequiredMixin,ListView):
 class EditarUsuario(LoginRequiredMixin,UpdateView):
     
     model = User
-    fields =  ['username','first_name', 'last_name'] 
+    fields =  ['username','first_name', 'last_name', 'email'] 
     success_url = reverse_lazy('home')
     template_name = 'app_tareas/usuarios/form_usuario.html' 
+ 
+
+def agregar_avatar(request):
+    if request.method == 'POST':
+
+        form = AvatarFormulario(request.POST, request.FILES)
+
+        if form.is_valid:  
+            avatar = form.save()
+            avatar.user = request.user
+            avatar.save()
+            return redirect(reverse('home'))
+
+    form = AvatarFormulario() 
+    return render(request, "app_tareas/usuarios/form_avatar.html", {"form":form})
+
+
+class EliminarAvatar(DeleteView):
+    
+    model = Avatar
+    context_object_name = 'avatar'
+    success_url = reverse_lazy('home')      
+    template_name = 'app_tareas/categorias/eliminar_avatar.html' 
+    
+    
+# --------------- CONTROL DE ERRORES -------------#
+
+class Error404View(TemplateView):
+    template_name = "app_tareas/error404.html"
+    
+   
+    
