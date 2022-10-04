@@ -27,6 +27,11 @@ class TareaForm(forms.ModelForm):
     class Meta:
         model = Tarea
         fields = ['usuario','titulo','descripcion', 'categoria']        
+        
+class TareaEditForm(forms.ModelForm):
+    class Meta:
+        model = Tarea
+        fields = ['usuario','titulo','descripcion', 'categoria', 'completo']             
 
 class CategoriaForm(forms.ModelForm):
     class Meta:

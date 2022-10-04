@@ -11,7 +11,7 @@ from django.urls import reverse_lazy
 
 # vistas para login y seguridad
 # importo de FORMS el custom que realice de userregisterform y se lo envio a la vista con el data
-from app_tareas.forms import CustomUserRegisterForm, AvatarFormulario, TareaForm, CategoriaForm
+from app_tareas.forms import CustomUserRegisterForm, AvatarFormulario, TareaForm, CategoriaForm, TareaEditForm
 from django.contrib.auth.forms import AuthenticationForm
 # funciones que me van a permitir autenticar al usuario
 from django.contrib.auth import login, authenticate
@@ -102,16 +102,31 @@ class CrearTarea(LoginRequiredMixin,CreateView):
 class EditarTarea(LoginRequiredMixin,UpdateView):
     
     model = Tarea
-    fields = '__all__'
+    form_class = TareaEditForm
     success_url = reverse_lazy('tareas')
-    template_name = 'app_tareas/tareas/form_tarea.html'       
+    template_name = 'app_tareas/tareas/form_tarea.html'  
+    
+    def post(self, request, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            messages.success(request, "Tarea Editada Correctamente.")
+            return super(EditarTarea, self).post(request, **kwargs)              
     
 class EliminarTarea(LoginRequiredMixin,DeleteView):
     
     model = Tarea
     context_object_name = 'tarea'
     success_url = reverse_lazy('tareas')   
-    template_name = 'app_tareas/tareas/eliminar_tarea.html'       
+    template_name = 'app_tareas/tareas/eliminar_tarea.html'  
+    
+    def post(self, request, **kwargs):
+        form = self.form_class(request.POST)
+        
+        if form.is_valid():
+            messages.warning(request, "Tarea Eliminada Correctamente.")
+            return super(EliminarTarea, self).post(request, **kwargs)            
+        else:
+            messages.error(request, "Error Al Eliminar Tarea.")          
 
 
 def tarea(request, usuario_id):
@@ -162,7 +177,13 @@ class EditarCategoria(LoginRequiredMixin,UpdateView):
     model = Categoria
     form_class = CategoriaForm
     success_url = reverse_lazy('categorias')
-    template_name = 'app_tareas/categorias/form_categoria.html'      
+    template_name = 'app_tareas/categorias/form_categoria.html'   
+    
+    def post(self, request, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            messages.success(request, "Categoria Editada Correctamente.")
+            return super(EditarCategoria, self).post(request, **kwargs)           
     
 class EliminarCategoria(LoginRequiredMixin,DeleteView):
     
@@ -171,14 +192,14 @@ class EliminarCategoria(LoginRequiredMixin,DeleteView):
     success_url = reverse_lazy('categorias')      
     template_name = 'app_tareas/categorias/eliminar_categoria.html'   
     
-    # def post(self, request, **kwargs):
-    #     form = self.form_class(request.POST)
+    def post(self, request, **kwargs):
+        form = self.form_class(request.POST)
         
-    #     if form.is_valid():
-    #         messages.warning(request, "Categoria Eliminada Correctamente.")
-    #         return super(EliminarCategoria, self).post(request, **kwargs)            
-    #     else:
-    #         messages.error(request, "Error Al Eliminar Categoria.") 
+        if form.is_valid():
+            messages.warning(request, "Categoria Eliminada Correctamente.")
+            return super(EliminarCategoria, self).post(request, **kwargs)            
+        else:
+            messages.error(request, "Error Al Eliminar Categoria.") 
 
 # ---------------- vista USERS ---------------
 class ListaUsuarios(LoginRequiredMixin,ListView):
