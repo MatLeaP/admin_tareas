@@ -17,4 +17,7 @@ nota - queriamos detallar lo realizado por cada uno de los miembros del equipo, 
 seria imposible asignar las partes a distintas personas.
 - git resubido, por problemas tecnicos en las primeras pruebs entre todos, por lo cual no refleja la realidad de lo desarrollado indvidualmente.
 
+video de utilizacion:
+https://youtu.be/1qBsS-d1HvE
+
 
