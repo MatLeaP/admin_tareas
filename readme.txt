@@ -15,5 +15,6 @@ Mauricio Pedrosa
 
 nota - queriamos detallar lo realizado por cada uno de los miembros del equipo, pero el desarrollo fue realizado con la ayuda de todos , controlado y modificado por el equipo.
 seria imposible asignar las partes a distintas personas.
+- git resubido, por problemas tecnicos en las primeras pruebs entre todos, por lo cual no refleja la realidad de lo desarrollado indvidualmente.
 
 
