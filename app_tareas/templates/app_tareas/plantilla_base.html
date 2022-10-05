@@ -26,6 +26,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">ACERCA DE NOSOTROS</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'areas' %}">AREAS</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'categorias' %}">CATEGORIAS</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'tareas' %}">TAREAS</a></li>
                         {% if user.is_authenticated %}

@@ -1,4 +1,4 @@
-from .models import Categoria, Tarea, Avatar
+from .models import Area, Categoria, Tarea, Avatar
 from django.shortcuts import render, redirect
 from django.contrib import  messages # el storage de messages esta definido en settings
 
@@ -11,7 +11,7 @@ from django.urls import reverse_lazy
 
 # vistas para login y seguridad
 # importo de FORMS el custom que realice de userregisterform y se lo envio a la vista con el data
-from app_tareas.forms import CustomUserRegisterForm, AvatarFormulario, TareaForm, CategoriaForm, TareaEditForm
+from app_tareas.forms import CustomUserRegisterForm, AvatarFormulario, TareaForm, CategoriaForm, TareaEditForm, AreaForm
 from django.contrib.auth.forms import AuthenticationForm
 # funciones que me van a permitir autenticar al usuario
 from django.contrib.auth import login, authenticate
@@ -91,7 +91,12 @@ class CrearTarea(LoginRequiredMixin,CreateView):
     form_class = TareaForm
     success_url = reverse_lazy('tareas')
     template_name = 'app_tareas/tareas/form_tarea.html'
-
+    
+    def get_initial(self):
+        data_inicial = super(CrearTarea, self).get_initial()
+        data_inicial['usuario_carga'] = self.request.user
+        return data_inicial
+    
     def post(self, request, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
@@ -165,7 +170,7 @@ class CrearCategoria(LoginRequiredMixin,CreateView):
     form_class = CategoriaForm
     success_url = reverse_lazy('categorias')
     template_name = 'app_tareas/categorias/form_categoria.html'     
-    
+
     def post(self, request, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
@@ -200,6 +205,76 @@ class EliminarCategoria(LoginRequiredMixin,DeleteView):
             return super(EliminarCategoria, self).post(request, **kwargs)            
         else:
             messages.error(request, "Error Al Eliminar Categoria.") 
+
+
+
+# ---------- VISTAS AREAS -------------
+ 
+class ListaAreas(LoginRequiredMixin,ListView):
+    
+    model = Area
+    context_object_name = 'areas'   
+    template_name = 'app_tareas/areas/lista_areas.html'  
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) 
+        valor_buscado = self.request.GET.get('buscar') or ''
+        if valor_buscado:
+            context['areas'] = context['areas'].filter(descripcion__icontains=valor_buscado)
+        
+        context['valor_buscado'] =  valor_buscado      
+        return context    
+         
+    
+class DetalleArea(LoginRequiredMixin,DetailView):
+    
+    model = Area
+    context_object_name = 'area'
+    template_name = 'app_tareas/areas/detalle_area.html'       
+    
+class CrearArea(LoginRequiredMixin,CreateView):
+    
+    model = Area
+    form_class = AreaForm
+    success_url = reverse_lazy('areas')
+    template_name = 'app_tareas/areas/form_area.html'     
+    
+    def post(self, request, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            messages.success(request, "Area Creada Correctamente.")
+            return super(CrearArea, self).post(request, **kwargs)      
+
+class EditarArea(LoginRequiredMixin,UpdateView):
+    
+    model = Area
+    form_class = AreaForm
+    success_url = reverse_lazy('areas')
+    template_name = 'app_tareas/areas/form_area.html'   
+    
+    def post(self, request, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            messages.success(request, "Area Editada Correctamente.")
+            return super(EditarArea, self).post(request, **kwargs)           
+    
+class EliminarArea(LoginRequiredMixin,DeleteView):
+    
+    model = Area
+    context_object_name = 'area'
+    success_url = reverse_lazy('areas')      
+    template_name = 'app_tareas/areas/eliminar_area.html'   
+    
+    def post(self, request, **kwargs):
+        form = self.form_class(request.POST)
+        
+        if form.is_valid():
+            messages.warning(request, "Area Eliminada Correctamente.")
+            return super(EliminarArea, self).post(request, **kwargs)            
+        else:
+            messages.error(request, "Error Al Eliminar Area.") 
+            
+            
 
 # ---------------- vista USERS ---------------
 class ListaUsuarios(LoginRequiredMixin,ListView):

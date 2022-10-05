@@ -1,3 +1,4 @@
+from enum import unique
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -9,6 +10,15 @@ class Categoria(models.Model):
     def __str__(self):
         return self.descripcion
     
+    
+class Area(models.Model):
+    descripcion = models.CharField(max_length=100)
+    nota = models.CharField(max_length=200)
+    
+    def __str__(self):
+        return self.descripcion
+        
+    
 class Tarea(models.Model):
     usuario = models.ForeignKey(User,null=False, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=200,null=False)
@@ -16,6 +26,8 @@ class Tarea(models.Model):
     completo = models.BooleanField(default=False)
     creado = models.DateTimeField(auto_now_add=True)
     categoria = models.ForeignKey(Categoria,null=False,on_delete=models.PROTECT)
+    usuario_carga = models.CharField(max_length=61,null=True)
+    area = models.ForeignKey(Area,null=False,on_delete=models.PROTECT)
     
     def __str__(self):
         return self.titulo

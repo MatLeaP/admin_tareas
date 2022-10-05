@@ -29,6 +29,8 @@
                         <th>Usuario</th>
                         {% comment %} <th>Descripcion</th> {% endcomment %}
                         <th>Categoria</th>
+                        <th>Area</th>
+                        <th>Creado por</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -40,6 +42,8 @@
                             <td class="table-success">{{i.creado|date:"d/m/y"}}</td>
                             <td class="table-success"><a href="{% url 'tarea_usuario' i.usuario_id %}" class="btn btn-success btn-sm">{{i.usuario}}</a></td>
                             <td class="table-success">{{i.categoria}}</td>
+                            <td class="table-success">{{i.area}}</td>
+                            <td class="table-success">{{i.usuario_carga}}</td>
                             <td class="table-success"><a id = visualizar href="{% url 'tarea' i.id %}" class="btn  btn-info btn-sm"><i class="far fa-eye"></i></a>
                             <a id = editar href="{% url 'editar_tarea' i.id %}" class="btn btn-warning btn-sm"><i class="far fa-edit"></i></a>
                             <a id = eliminar href="{% url 'eliminar_tarea' i.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a></td>                                 
@@ -48,6 +52,8 @@
                             <td>{{i.creado|date:"d/m/y"}}</td>
                             <td><a href="{% url 'tarea_usuario' i.usuario_id %}" class="btn btn-danger btn-sm">{{i.usuario}}</a></td>
                             <td>{{i.categoria}}</td>
+                            <td>{{i.area}}</td>
+                            <td>{{i.usuario_carga}}</td>
 
                             <td><a id = visualizar href="{% url 'tarea' i.id %}" class="btn  btn-info btn-sm"><i class="far fa-eye"></i></a>
                             <a  id = editar href="{% url 'editar_tarea' i.id %}" class="btn btn-warning btn-sm"><i class="far fa-edit"></i></a>

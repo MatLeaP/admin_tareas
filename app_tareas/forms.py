@@ -1,7 +1,7 @@
 from django import forms 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User 
-from app_tareas.models import Avatar, Categoria, Tarea
+from app_tareas.models import Avatar, Categoria, Tarea, Area
 
 class CustomUserRegisterForm(UserCreationForm):
     username = forms.CharField(label='Usuario')
@@ -26,16 +26,22 @@ class AvatarFormulario(forms.ModelForm):
 class TareaForm(forms.ModelForm):
     class Meta:
         model = Tarea
-        fields = ['usuario','titulo','descripcion', 'categoria']        
+        fields = ['usuario','titulo','descripcion', 'categoria', 'area', 'usuario_carga']    
         
 class TareaEditForm(forms.ModelForm):
     class Meta:
         model = Tarea
-        fields = ['usuario','titulo','descripcion', 'categoria', 'completo']             
+        fields = ['usuario','titulo','descripcion', 'categoria','area', 'completo', 'usuario_carga']             
 
 class CategoriaForm(forms.ModelForm):
     class Meta:
         model = Categoria
         fields = ['descripcion']        
+        
+class AreaForm(forms.ModelForm):
+    class Meta:
+        model = Area
+        fields = ['descripcion', 'nota']        
+        
 
  

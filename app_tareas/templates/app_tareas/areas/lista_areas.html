@@ -1,0 +1,48 @@
+{% extends 'app_tareas/plantilla_base.html' %}
+
+{% block contenido %}
+
+<div class = 'container'>
+    <h2>AREAS</h2>
+    <a href="{% url 'crear_area' %}" class="btn btn-primary btn-sm">Agregar</a>
+
+</div>
+<br>
+
+<div class="container">
+
+    <form action="" method="GET">
+        <input type="text" name="buscar" value = "{{valor_buscado}}">
+        <input type="submit" value="Buscar" class="btn btn-dark btn-sm">
+    </form>
+</div>
+<br>
+<div class ='container'>
+    <div class = 'row'>
+        <div class = 'col'>
+            <table class = 'table  table-hover table-responsive-sm'>
+            
+                <thead>
+                    <tr>
+                        <th>Descripcion</th>
+                        <th>Nota</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in areas %}
+                    <tr>
+                        <td>{{i.descripcion}}</td> 
+                        <td>{{i.nota}}</td> 
+                        <td><a  id = editar href="{% url 'editar_area' i.id %}" class="btn btn-warning btn-sm"><i class="far fa-edit"></i></a>
+                        <a  id = eliminar href="{% url 'eliminar_area' i.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a></td>     
+                         
+                    </tr>    
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock contenido %}

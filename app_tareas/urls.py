@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import EditarUsuario, ListaUsuarios, home, CrearCategoria,  DetalleCategoria,  EditarCategoria,  EliminarCategoria,  ListaCategorias,   ListaTareas,DetalleTarea,CrearTarea,EditarTarea, EliminarTarea, Logueo, registro, tarea, about
+from .views import CrearArea, EditarArea, EditarUsuario, EliminarArea, ListaAreas, ListaUsuarios, home, CrearCategoria,  DetalleCategoria,  EditarCategoria,  EliminarCategoria,  ListaCategorias,   ListaTareas,DetalleTarea,CrearTarea,EditarTarea, EliminarTarea, Logueo, registro, tarea, about
 from .views import home, CrearCategoria,  DetalleCategoria,  EditarCategoria, EliminarCategoria,  ListaCategorias,  ListaTareas,DetalleTarea,CrearTarea,EditarTarea, EliminarTarea, Logueo, registro, tarea, about,agregar_avatar, EliminarAvatar
 from django.contrib.auth.views import LogoutView
 
@@ -24,6 +24,13 @@ urlpatterns = [
     path('crear_categoria/', CrearCategoria.as_view(), name ='crear_categoria'),
     path('editar_categoria/<int:pk>', EditarCategoria.as_view(), name ='editar_categoria'),
     path('eliminar_categoria/<int:pk>', EliminarCategoria.as_view(), name ='eliminar_categoria'),  
+    
+    #---------- AREAS -----------
+    path('areas/', ListaAreas.as_view(), name ='areas'),       
+    path('crear_area/', CrearArea.as_view(), name ='crear_area'),
+    path('editar_area/<int:pk>', EditarArea.as_view(), name ='editar_area'),
+    path('eliminar_area/<int:pk>', EliminarArea.as_view(), name ='eliminar_area'),  
+    
     
     # -----------USUARIOS ---------------
     path('usuarios/', ListaUsuarios.as_view(), name ='usuarios'),        
