@@ -1,8 +1,19 @@
 --- sistema de administracion de tareas ----
--en home aun no tiene detalle pero para utilizarlo hay que seguir estos pasos:
-1 agregar categorias de tareas
-2 agregar usuarios a quienes se les asignaran las tareas
-3 cargar tareas
+El sistema permite:
+1 agregar - editar o eliminar las areas donde trabajan las personas que solicitan las tareas
+2 agregar - editar o eliminar las categorias de las tareas
+3 registrarse como usuario, tanto para cargar tareas como para recibirlas
+4 logearse al sistema, editar los datos personales, agregar un avatar
+5 cargar nuevas tareas, modificarlas o borrarlas
+6 busquedas, en todos los templates generados
 
--en cada seccion se puede buscar por un campo en especifico (el cual esta detallado en el boton de busqueda)
--se puede agregar datos de todos los modelos implementados
+desarrolladores:
+
+Teresa Algorta
+Matias Leandro Perona
+Mauricio Pedrosa
+
+nota - queriamos detallar lo realizado por cada uno de los miembros del equipo, pero el desarrollo fue realizado con la ayuda de todos , controlado y modificado por el equipo.
+seria imposible asignar las partes a distintas personas.
+
+
